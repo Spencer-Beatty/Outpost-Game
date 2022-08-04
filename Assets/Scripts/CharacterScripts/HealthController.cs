@@ -10,16 +10,24 @@ public class HealthController : MonoBehaviour
     public string currentState;
     public Slider healthBar;
     public int hits = 0;
+    private bool death = false;
 
     void Update()
     {
             healthBar.value = healthData.health / maxHealth;
+        if(!death && healthData.health <= 0)
+        {
+            GetComponent<Animator>().SetTrigger("death");
+            death = true;
+           
+        }
     }
 
     public void GetHit(float damage)
     {
         hits++;
         healthData.health -= damage;
+        GetComponent<AbstractCheckHits>().GetHit();
        /* if (healthData.health < 0)
         {
             healthData.health = 0;

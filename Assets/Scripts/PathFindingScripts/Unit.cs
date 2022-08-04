@@ -14,6 +14,7 @@ public class Unit : MonoBehaviour
     public float stoppingDistance = 10;
     private int waypointMovementPenalty;
     private bool completedPath = false;
+    private bool movementFlag = false;
 
     Path path;
     Grids grid;
@@ -22,7 +23,7 @@ public class Unit : MonoBehaviour
 
     private Vector3[] oldWaypoints = { };
 
-    CharacterController controller;
+    
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful )
     {
@@ -65,9 +66,10 @@ public class Unit : MonoBehaviour
     }
     void Start()
     {
-        movementController = GetComponent<GladiatorController>().movementController;
+        target = GameObject.Find("Player").transform;
+        movementController = GetComponent<EnemyMovementController>();
 
-        controller = GetComponent<CharacterController>();
+       
         pathFindingController = GameObject.Find("PathFindingController");
         grid = pathFindingController.GetComponent<Grids>();
         waypointMovementPenalty = grid.waypointMovementPenalty;
@@ -125,20 +127,27 @@ public class Unit : MonoBehaviour
                 if (pathIndex >= path.slowDownIndex && stoppingDistance > 0)
                 {
                     speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2d) / stoppingDistance);
-                    if(GetComponent<GladiatorController>().distanceTo() <= GetComponent<GladiatorController>().walkingThreshold)
+                    /*if(GetComponent<GladiatorController>().distanceTo() <= GetComponent<GladiatorController>().walkingThreshold)
                     {
                         speedPercent = 0f;
-                    }
+                    }*/
                     if (speedPercent < 0.01)
                     {
                         followingPath = false;
                     }
                 }                
 
-                Quaternion targetRotation = Quaternion.LookRotation(
-                    new Vector3(path.lookPoints[pathIndex].x, transform.position.y, path.lookPoints[pathIndex].z) - transform.position);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                movementController.MoveCharacter(0, 1);
+               
+
+                if (!movementFlag)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(
+                   new Vector3(path.lookPoints[pathIndex].x, transform.position.y, path.lookPoints[pathIndex].z) - transform.position);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                    movementController.MoveCharacter(0, 1);
+                }
+                
+               
                 
 
 
@@ -154,6 +163,14 @@ public class Unit : MonoBehaviour
         completedPath = true;
     }
 
+    public void grabMovementFlag()
+    {
+        movementFlag = true;
+    }
+    public void releaseMovementFlag()
+    {
+        movementFlag = false;
+    }
 
     public void OnDrawGizmos()
     {

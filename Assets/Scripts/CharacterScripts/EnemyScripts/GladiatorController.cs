@@ -9,14 +9,14 @@ public class GladiatorController : MonoBehaviour
   
 
     private Animator animator;
-    public Transform player;
+    private Transform player;
     public Transform hand;
     public LayerMask layer;
 
 
     public EnemyMovementController movementController;
-    public EnemyAttackController attackController;
-    public Transform testVar;
+    
+    
     public float walkingThreshold = 3f;
  
     private GameObject[] patrolWaypoints;
@@ -53,7 +53,7 @@ public class GladiatorController : MonoBehaviour
         };
         patrolWaypoints[0].transform.position = transform.position;
 
-        movementController = GetComponent<EnemyMovementController>();
+        player = GameObject.Find("Player").transform;
         
         animator = GetComponent<Animator>();
         
@@ -112,32 +112,22 @@ public class GladiatorController : MonoBehaviour
             {
 
                 currentSpeed = Mathf.Lerp(currentSpeed, poiseSpeed, lerpFactor);
-                attackController.StartCoroutine("AssessEnemyStance");
-                Debug.Log("started");
-                while (distanceTo() < strikingDistance)
-                {
-                    yield return new WaitForSeconds(1);
-                }
-                Debug.Log("Irk");
-                
-                attackController.StopCoroutine("AssessEnemyStance");
-                if(movementController.movementFlag == true)
-                {
-                    movementController.movementFlag = false;
-                }
+      
+
                 //move at poisespeed and assess enemy stance
 
             }
             else if (distanceTo() < nearStrikingDistance)
             {
-                //move at charging speed and quick attack when in range
-                //get locked into charging
                 currentSpeed = Mathf.Lerp(currentSpeed, walkingSpeed, lerpFactor);
             }
             else if (distanceTo() < outOfRangeDistance)
             {
-                //move at walkingspeed
                 currentSpeed = Mathf.Lerp(currentSpeed, runningSpeed, lerpFactor);
+            }
+            else
+            {
+                currentSpeed = walkingSpeed;
             }
 
             yield return null;
@@ -145,7 +135,7 @@ public class GladiatorController : MonoBehaviour
     }
    
    
-    public float distanceTo()
+    private float distanceTo()
     {
         Vector3 target1 = transform.position;
         Vector3 target2 = player.position;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckHits : MonoBehaviour
+public class CheckHits : AbstractCheckHits
 {
     private float timeAtLastHit = -0.3f;
     private float weaponLength = 1f;
@@ -35,11 +35,13 @@ public class CheckHits : MonoBehaviour
                
                     float damage = healthController.healthData.damage;
                     HealthController enemyHealthController = hit.transform.GetComponent<HealthController>();
-                if (! enemyHealthController.currentState.Equals("block"))
-                {
+                
                     enemyHealthController.GetHit(damage);
+
+                if (transform.name.Equals("Player"))
+                {
+                    hit.transform.GetComponent<CheckHits>().GetHit();
                 }
-                    
 
                 
 
@@ -57,5 +59,10 @@ public class CheckHits : MonoBehaviour
             Debug.DrawRay(sword.position, sword.TransformDirection(Vector3.forward) * weaponLength, Color.white);
             // Debug.Log("Did not Hit");
         }
+    }
+
+    public override void GetHit()
+    {
+        throw new System.NotImplementedException();
     }
 }
