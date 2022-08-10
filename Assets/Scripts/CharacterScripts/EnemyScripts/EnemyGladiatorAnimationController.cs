@@ -27,30 +27,25 @@ public class EnemyGladiatorAnimationController : AbstractEnemyAnimationControlle
             if (distanceTo() < 2.5f) //striking distance
             {
                 float attackTime;
-                int pot = Random.Range(0, 7);
-                if(pot < 1)
-                {
-                    animator.SetTrigger("quickAttack");
-                    attackTime = 3f;
-                }else if(pot <= 7)
-                {
-                    attackTime = LightAttack();
-                    
+                if (Random.RandomRange(0, 10) < 7)
+                { 
+                    animator.SetTrigger("light");
+                    GetComponent<EnemyCheckHits>().StartCoroutine("Attack");
                 }
                 else
                 {
-                    attackTime = HeavyAttack();
+                    animator.SetTrigger("heavy");
+                    GetComponent<EnemyCheckHits>().StartCoroutine("Attack");
                 }
-                
-                float recoveryTime = attackTime / 4;
+
                 //Attack cooldown
 
-                yield return new WaitForSeconds(attackTime + recoveryTime);
+                yield return new WaitForSeconds(1);
 
             }
             else
             {
-                animator.SetTrigger("cancelAttack");
+                
                 yield return new WaitForSeconds(0.5f);
             }
 
@@ -63,7 +58,7 @@ public class EnemyGladiatorAnimationController : AbstractEnemyAnimationControlle
     {
         float stumbleThreshold;
         float staggerThreshold = 0f;
-        HeavyStagger();
+        
         LightStagger();
         /*AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         float framePercent = stateInfo.normalizedTime - Mathf.FloorToInt(stateInfo.normalizedTime);
@@ -95,7 +90,7 @@ public class EnemyGladiatorAnimationController : AbstractEnemyAnimationControlle
     }
     public override float HeavyAttack()
     {
-        animator.SetTrigger("heavyAttack");
+        animator.SetTrigger("heavy");
         
         return 5;
     }
@@ -107,7 +102,7 @@ public class EnemyGladiatorAnimationController : AbstractEnemyAnimationControlle
 
     public override float LightAttack()
     {
-        animator.SetTrigger("fastAttack");
+        animator.SetTrigger("light");
         
         
         return 0;
@@ -115,7 +110,8 @@ public class EnemyGladiatorAnimationController : AbstractEnemyAnimationControlle
 
     public void LightStagger()
     {
-        animator.SetTrigger("cancelAttack");
+        animator.SetFloat("damageTaken", 4.1f);
+        animator.SetTrigger("takeDamage");
     }
 
     private float distanceTo()

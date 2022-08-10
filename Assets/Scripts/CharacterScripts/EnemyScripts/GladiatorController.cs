@@ -8,7 +8,7 @@ public class GladiatorController : MonoBehaviour
     public HealthData GladiatorHealthData;
   
 
-    private Animator animator;
+
     private Transform player;
     public Transform hand;
     public LayerMask layer;
@@ -23,18 +23,14 @@ public class GladiatorController : MonoBehaviour
     //private int idleIndex;
 
 
-    private float lerpFactor = 0.01f;
+   
 
     //for behaviour tree
     private bool playerDetected = false;
-    float strikingDistance = 2.5f;
-    float nearStrikingDistance = 5f;
+
     float outOfRangeDistance = 20f;
 
-    //speeds
-    float poiseSpeed = 1.5f;
-    float walkingSpeed = 3.5f;
-    float runningSpeed = 6;
+  
     //float chargingSpeed = 7;
 
     public float currentSpeed = 7f;
@@ -54,8 +50,7 @@ public class GladiatorController : MonoBehaviour
         patrolWaypoints[0].transform.position = transform.position;
 
         player = GameObject.Find("Player").transform;
-        
-        animator = GetComponent<Animator>();
+     
         
         StartCoroutine("DetectPlayer");
        
@@ -74,7 +69,7 @@ public class GladiatorController : MonoBehaviour
                 {
                     
                     GetComponent<Unit>().target = player;
-                    StartCoroutine("BehaviourState");
+                    
                     playerDetected = true;
                 }
                 
@@ -83,7 +78,7 @@ public class GladiatorController : MonoBehaviour
             {
                 if (playerDetected)
                 {
-                    StopCoroutine("BehaviourState");
+                    
                     GetComponent<Unit>().target = patrolWaypoints[0].transform;
                     playerDetected = false;
                 }
@@ -97,42 +92,7 @@ public class GladiatorController : MonoBehaviour
         
     }
 
-    private IEnumerator BehaviourState()
-    {
-        while (true)
-        {
-
-
-            
-            //find a way to not setspeed every time without comparing floats
-
-            //player is detected
-            //assess enemy position
-            if (distanceTo() < strikingDistance)
-            {
-
-                currentSpeed = Mathf.Lerp(currentSpeed, poiseSpeed, lerpFactor);
-      
-
-                //move at poisespeed and assess enemy stance
-
-            }
-            else if (distanceTo() < nearStrikingDistance)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, walkingSpeed, lerpFactor);
-            }
-            else if (distanceTo() < outOfRangeDistance)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, runningSpeed, lerpFactor);
-            }
-            else
-            {
-                currentSpeed = walkingSpeed;
-            }
-
-            yield return null;
-        }
-    }
+  
    
    
     private float distanceTo()

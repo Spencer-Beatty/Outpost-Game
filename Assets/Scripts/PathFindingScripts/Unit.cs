@@ -139,13 +139,12 @@ public class Unit : MonoBehaviour
 
                
 
-                if (!movementFlag)
-                {
+                
                     Quaternion targetRotation = Quaternion.LookRotation(
                    new Vector3(path.lookPoints[pathIndex].x, transform.position.y, path.lookPoints[pathIndex].z) - transform.position);
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
                     movementController.MoveCharacter(0, 1);
-                }
+                
                 
                
                 

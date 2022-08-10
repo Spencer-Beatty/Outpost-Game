@@ -259,7 +259,6 @@ GameObject:
   - component: {fileID: 2090814627162180239}
   - component: {fileID: 2090814627162180236}
   - component: {fileID: 3481622056820267528}
-  - component: {fileID: 2090814627091754261}
   - component: {fileID: 2090814627091754254}
   - component: {fileID: 2138328861}
   - component: {fileID: 2138328869}
@@ -296,8 +295,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2090814625830489112}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9aad3441c120b4e418ef2a981ac78bae, type: 2}
+  m_Avatar: {fileID: 9000000, guid: f7ccc3d9bbf7a5a41ba96f353e8f47f8, type: 3}
+  m_Controller: {fileID: 9100000, guid: 001c769d574898c4b91602a0a56ee3bb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -319,13 +318,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GladiatorHealthData: {fileID: 11400000, guid: e6ec9716979c35344b7b9569fbf8cdf9, type: 2}
-  player: {fileID: 0}
   hand: {fileID: 6664411884428657879}
   layer:
     serializedVersion: 2
     m_Bits: 128
   movementController: {fileID: 3481622056820267528}
-  testVar: {fileID: 0}
   walkingThreshold: 1
   currentSpeed: 7
 --- !u!114 &2090814627162180236
@@ -358,24 +355,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementFlag: 0
---- !u!143 &2090814627091754261
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2090814625830489112}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.07, z: 0}
 --- !u!114 &2090814627091754254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,7 +368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthData: {fileID: 11400000, guid: e6ec9716979c35344b7b9569fbf8cdf9, type: 2}
-  currentState: 
   healthBar: {fileID: 0}
   hits: 0
 --- !u!114 &2138328861

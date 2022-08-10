@@ -7,7 +7,7 @@ public class HealthController : MonoBehaviour
     // Start is called before the first frame update
     public HealthData healthData;
     private float maxHealth = 100;
-    public string currentState;
+    
     public Slider healthBar;
     public int hits = 0;
     private bool death = false;

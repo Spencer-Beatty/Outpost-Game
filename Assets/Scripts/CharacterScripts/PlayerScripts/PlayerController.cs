@@ -8,10 +8,9 @@ public class PlayerController : MonoBehaviour
     public HealthData healthData;
     private HealthController healthController;
     private Animator animator;
-    public CharacterController controller;
-    private CurrentAnimationState animationState;
-    [SerializeField]
-    private float speed = 2f;
+    
+    
+   
     public float gravity = -9.81f;
     Vector3 velocity;
     //private bool isWalking = true;
@@ -20,14 +19,14 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        animationState = GetComponent<CurrentAnimationState>();
+        
         healthController= GetComponent<HealthController>();
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
-        healthController.currentState = animationState.GetCurrentState();
+        
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -39,18 +38,10 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("xAxis", x);
         animator.SetFloat("zAxis", z);
        
-        Vector3 move = transform.right * x  + transform.forward * z ;
-        controller.Move(move * speed *Time.deltaTime) ;
+        //Vector3 move = transform.right * x  + transform.forward * z ;
+        //controller.Move(move * speed *Time.deltaTime) ;
 
-        if (controller.isGrounded)
-        {
-            velocity = Vector3.zero;
-        }
-        else
-        {
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-        }
+        
         
     }
 

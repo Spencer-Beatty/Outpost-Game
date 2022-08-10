@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class AbstractCheckHits : MonoBehaviour
 {
+    public abstract IEnumerator Attack();
     public abstract void GetHit();
 }

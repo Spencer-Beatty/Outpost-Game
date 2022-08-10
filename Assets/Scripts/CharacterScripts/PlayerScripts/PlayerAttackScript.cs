@@ -11,6 +11,7 @@ public class PlayerAttackScript : MonoBehaviour
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        
     }
 
     
@@ -20,16 +21,23 @@ public class PlayerAttackScript : MonoBehaviour
         
         if (Input.GetButtonDown("Fire1"))
         {
-            animator.SetBool("slash", true);
-            animator.SetFloat("slashDirection", Mathf.Abs(1 - animator.GetFloat("slashDirection")));
+            animator.SetTrigger("light");
+
+            GetComponent<AbstractCheckHits>().StartCoroutine("Attack");
+
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            animator.SetBool("thrust", true);
+            animator.SetTrigger("heavy");
         }
         else if (Input.GetButtonDown("Fire3"))
         {
             animator.SetBool("block", true);
+        }
+
+        if (Input.GetButtonUp("Fire3"))
+        {
+            animator.SetBool("block", false);
         }
     }
 }

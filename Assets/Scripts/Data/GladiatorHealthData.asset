@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 0
   damage: 10
-  health: -10
+  health: 100
   maxHealth: 100

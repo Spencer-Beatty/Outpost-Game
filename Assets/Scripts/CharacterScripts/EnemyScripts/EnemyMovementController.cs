@@ -9,20 +9,22 @@ public class EnemyMovementController : MonoBehaviour
     public bool movementFlag;
 
     private float maxSpeed = 7f;
+    private float currentSpeed = 7f;
     private float xAxis;
     private float zAxis;
     private float oldXAxis;
     private float oldZAxis;
-    private float lerpFactor = 0.02f;
-    private CharacterController controller;
+    private float lerpFactor = 0.01f;
+    private float standingTurnSpeed = 5f;
+
     private Animator animator;
-    
+    private Transform player;
 
     
 
     private void Start()
     {
-        
+        player = GameObject.Find("Player").transform;
         movementFlag = false;
         xAxis = 0f;
         zAxis = 0f;
@@ -30,7 +32,7 @@ public class EnemyMovementController : MonoBehaviour
         oldZAxis = 0f;
 
         
-        controller = GetComponent<CharacterController>();
+        
         animator = GetComponent<Animator>();
 
         
@@ -41,10 +43,18 @@ public class EnemyMovementController : MonoBehaviour
         
         if (GetComponent<Unit>().checkCompletion())
         {
+            Quaternion targetRotation = Quaternion.LookRotation(
+                   new Vector3(player.position.x, transform.position.y, player.position.z) - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * standingTurnSpeed);
+
+            currentSpeed = 1.5f;
+
             zAxis = Mathf.Lerp(zAxis, 0, lerpFactor);
             oldZAxis = zAxis;
-
-                
+        }
+        else
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, lerpFactor);
         }
         
         animator.SetFloat("xAxis", xAxis);
@@ -59,19 +69,18 @@ public class EnemyMovementController : MonoBehaviour
         if(!movementFlag)
         {
             
-            float currentSpeed = GetComponent<GladiatorController>().currentSpeed;
+            
             float speed;
 
             xAxis = Mathf.Lerp(oldXAxis, pXAxis, lerpFactor);
             oldXAxis = xAxis;
             speed = maxSpeed * zAxis;
-            zAxis = Mathf.Lerp(oldZAxis, Mathf.Clamp(pZAxis, 0, currentSpeed / maxSpeed), lerpFactor);
+            zAxis = Mathf.Lerp(oldZAxis, Mathf.Clamp(pZAxis, 0, currentSpeed/maxSpeed), lerpFactor);
             
 
             oldZAxis = zAxis;
 
 
-            controller.Move((transform.forward * zAxis + transform.right * xAxis) * Time.deltaTime * speed);
         }
     }
     
